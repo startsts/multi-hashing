@@ -27,7 +27,13 @@
     "blake",
     "shavite",
     "fugue",
-    "sha1"
+    "sha1",
+    "neoscrypt",
+	"polytimos",
+	"bitcore",
+	"tribus",
+	"blake2s",
+	"xevan",
   ],
   "scripts": {
     "install": "node-gyp rebuild"

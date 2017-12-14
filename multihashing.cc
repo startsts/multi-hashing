@@ -26,7 +26,7 @@ extern "C" {
 	#include "tribus.h"
 	#include "xevan.h"
     #include "blake2s.h"
-    
+    #include "neoscrypt.h"
 }
 
 #include "boolberry.h"
@@ -647,6 +647,28 @@ Handle<Value> polytimos(const Arguments& args) {
     return scope.Close(buff->handle_);
 }
 
+Handle<Value> neoscrypt(const Arguments& args) {
+    HandleScope scope;
+
+    if (args.Length() < 1)
+        return except("You must provide one argument.");
+
+    Local<Object> target = args[0]->ToObject();
+
+    if(!Buffer::HasInstance(target))
+        return except("Argument should be a buffer object.");
+
+    char * input = Buffer::Data(target);
+    char output[32];
+
+    uint32_t input_len = Buffer::Length(target);
+
+    neoscrypt_hash(input, output, 0);
+
+    Buffer* buff = Buffer::New(output, 32);
+    return scope.Close(buff->handle_);
+}
+
 Handle<Value> sha1(const Arguments& args) {
     HandleScope scope;
 
@@ -742,6 +764,7 @@ void init(Handle<Object> exports) {
     exports->Set(String::NewSymbol("timetravel"), FunctionTemplate::New(timetravel)->GetFunction());
     exports->Set(String::NewSymbol("bitcore"), FunctionTemplate::New(bitcore)->GetFunction());
     exports->Set(String::NewSymbol("polytimos"), FunctionTemplate::New(polytimos)->GetFunction());
+	exports->Set(String::NewSymbol("neoscrypt"), FunctionTemplate::New(neoscrypt)->GetFunction());
 }
 
 NODE_MODULE(multihashing, init)

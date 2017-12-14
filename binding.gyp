@@ -24,6 +24,7 @@
                 "sha1.c",
                 "x15.c",
                 "fresh.c",
+			"neoscrypt.c",
 		        "tribus.c",
 		        "xevan.c",
 		        "timetravel.c",
